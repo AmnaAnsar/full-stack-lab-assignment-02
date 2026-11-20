@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Item Finder</title>
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f7f6;
+  color: #2f3b47;
+}
+header {
+  background-color: #e3ece8;
+  padding: 22px;
+  text-align: center;
+  border-bottom: 1px solid #d3dfda;
+}
+header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #3a4d62;
+}
+.container {
+  max-width: 560px;
+  margin: 40px auto;
+  padding: 26px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(74, 96, 120, 0.10);
+}
+h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 22px;
+  color: #3a4d62;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 15px;
+}
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px solid #d3dfda;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  background-color: #fafcfb;
+}
+input:focus {
+  border-color: #8aa99b;
+}
+button {
+  width: 100%;
+  padding: 13px;
+  background-color: #4a6078;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+button:hover {
+  background-color: #3a4d62;
+}
+.results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+  align-items: start;
+}
+.result-box {
+  padding: 12px 10px;
+  background-color: #eaf1ee;
+  border: 1px solid #dde6e2;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 0;
+}
+.result-box h3 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #5f7a72;
+}
+#card, #times {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #3a4d62;
+  overflow-wrap: anywhere;
+}
+#slip {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#slip li {
+  margin-top: 6px;
+  padding: 6px 8px;
+  background-color: white;
+  border: 1px solid #dde6e2;
+  border-left: 3px solid #8aa99b;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+}
+#slip li:first-child {
+  margin-top: 0;
+}
+@media (max-width: 550px) {
+  .container {
+    margin: 24px 14px;
+    padding: 20px;
+  }
+  .results {
+    gap: 8px;
+  }
+  #card, #times {
+    font-size: 16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Item Finder</h1>
+</header>
+
+<main class="container">
+  <h2>Find an Item</h2>
+
+  <label for="name">Item Name</label>
+  <input id="name" placeholder="Enter item name" autocomplete="off">
+
+  <button id="find">Find</button>
+
+  <div class="results">
+    <div class="result-box">
+      <h3>PRICE</h3>
+      <p id="card"></p>
+    </div>
+
+    <div class="result-box">
+      <h3>COUNT</h3>
+      <p id="times">Times</p>
+    </div>
+
+    <div class="result-box">
+      <h3>SLIP</h3>
+      <ul id="slip"></ul>
+    </div>
+  </div>
+</main>
+
+<script>
+const server = { pen: 50 };   // the server holds pen at 50
+let count = 0;
+
+document.getElementById("find").addEventListener("click", function () {
+  const item = document.getElementById("name").value.trim().toLowerCase();
+  if (item === "") return;
+
+  // show the price on the card
+  const card = document.getElementById("card");
+  if (server[item] !== undefined) {
+    card.textContent = item + ": " + server[item];
+  } else {
+    card.textContent = item + ": not found";
+  }
+
+  // Requirement 1: Times shows the click count (2nd click shows 2)
+  count++;
+  document.getElementById("times").textContent = count;
+
+  // Requirement 2: add one row to the slip (it says pen)
+  const li = document.createElement("li");
+  li.textContent = item;
+  document.getElementById("slip").appendChild(li);
+});
+</script>
+
+</body>
+</html>
